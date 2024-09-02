@@ -16,3 +16,7 @@
 ## License
 
 This SDK was created under the [MIT License](LICENSE).
+
+## Contributing
+
+1. Run ./setup-hooks.sh (sets up commit hooks on your local repository)
