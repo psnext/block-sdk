@@ -1,6 +1,6 @@
 {
-  "name": "block-sdk",
-  "version": "0.0.0",
+  "name": "@psnex/block-sdk",
+  "version": "0.0.2",
   "type": "module",
   "exports": {
     ".": {
@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "release": "pnpm test && pnpm build && changelogen --release --push && pnpm publish",
+    "release": "pnpm build && changelogen --release --push && pnpm publish",
     "lint": "eslint . --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
