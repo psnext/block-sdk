@@ -1,0 +1,47 @@
+{
+  "name": "block-sdk",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/block-sdk.js",
+      "require": "./dist/block-sdk.cjs"
+    }
+  },
+  "main": "./dist/block-sdk.cjs",
+  "module": "./dist/block-sdk.js",
+  "types": "./dist/block-sdk.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "release": "pnpm test && pnpm build && changelogen --release --push && pnpm publish",
+    "lint": "eslint . --fix",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.27.3",
+    "@commitlint/cli": "^19.4.1",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@types/node": "^20.16.2",
+    "@vitest/coverage-v8": "^1.6.0",
+    "camelcase": "^8.0.0",
+    "changelogen": "^0.5.5",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "lint-staged": "^15.2.9",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "eventemitter3": "^5.0.1",
+    "uuid": "^10.0.0"
+  }
+}
