@@ -11,3 +11,10 @@ export const IFRAME_BLOCK_ID_PREFIX = "iframe:";
 export const BLOCK_URL_PARAMS = {
   BLOCK_ID: "block-id",
 };
+
+export const ALX_EVENT_ID = "ALX";
+
+export const ALX_EVENT_TYPE = {
+  UPDATE_MESSAGE: "UPDATE_MESSAGE",
+  DISPLAY_MESSAGE: "DISPLAY_MESSAGE",
+};

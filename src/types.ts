@@ -67,3 +67,5 @@ export interface HostData {
   appConfig?: IAppConfig;
   incomingEdges?: IncomingEdge[];
 }
+
+export type AnyObj = { [key: string]: any };

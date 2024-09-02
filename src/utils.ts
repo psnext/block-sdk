@@ -1,35 +1,44 @@
 import { v4 as uuidv4 } from "uuid";
-import { EventName } from "./types";
+import { EventName, AnyObj } from "./types";
+import { domResizeObserver } from "./resize-observer";
 
 function isInIframe() {
   return window.self !== window.top;
 }
 
-function sendMessageToHost(
-  senderBlockId: string,
-  blockName: string,
-  type: EventName,
-  payload: { [key: string]: any },
-  source = {}
-) {
-  const uid = uuidv4();
+type MessageToHost = {
+  senderBlockId: string;
+  type: EventName;
+  namespace?: string;
+  blockName: string;
+  source?: AnyObj;
+  payload?: AnyObj;
+  eventData?: AnyObj;
+};
+
+function sendMessageToHost(config: MessageToHost) {
+  const uuid = uuidv4();
   const timestamp = Date.now();
   window.parent.postMessage(
     {
-      senderBlockId: senderBlockId,
-      type: type,
+      senderBlockId: config.senderBlockId,
+      type: config.type,
+      namespace: config.namespace || "",
       eventData: {
-        eventId: uid,
+        version: 2,
+        eventId: uuid,
         timestamp: timestamp,
         playId: "",
         source: {
-          blockId: senderBlockId,
-          blockName: blockName,
-          ...source,
+          blockId: config.senderBlockId,
+          blockName: config.blockName,
+          ...config.source,
         },
         payload: {
-          ...payload,
+          ...config.payload,
+          lastUpdatedTimestamp: timestamp,
         },
+        ...config.eventData,
       },
     },
     "*"
@@ -46,4 +55,5 @@ export default {
   isInIframe,
   sendMessageToHost,
   getUrlParams,
+  domResizeObserver,
 };
