@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "tsc && vite build && vite",
     "build": "tsc && vite build",
     "release": "pnpm test && pnpm build && changelogen --release --push && pnpm publish",
     "lint": "eslint . --fix",
