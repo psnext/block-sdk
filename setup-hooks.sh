@@ -28,6 +28,6 @@ remove_existing_hooks() {
 
 remove_existing_hooks
 
-create_symlink "pre-commit"
+create_symlink "pre-push"
 
 echo "Git hooks setup complete."
