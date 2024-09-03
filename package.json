@@ -21,7 +21,8 @@
     "lint": "eslint . --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "prepare": "vitest --run && tsc && vite build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
