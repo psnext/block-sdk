@@ -4,7 +4,7 @@
 
 ## Usage
 
-* `dev` - Start the development server
+* `dev` - Build for production && Start the development server
 * `build` - Build for production
 * `release` - Generate changelog and npm publish
 * `lint` - Checks your code for any linting errors
@@ -19,4 +19,5 @@ This SDK was created under the [MIT License](LICENSE).
 
 ## Contributing
 
-1. Run ./setup-hooks.sh (sets up commit hooks on your local repository)
+1. Run yarn install
+2. Run ./setup-hooks.sh (sets up commit hooks on your local repository)
