@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# . "${0%/*}/h"
+
+echo "Running pnpm test..."
+pnpm test
+TEST_EXIT_CODE=$?
+
+echo "Running pnpm build..."
+pnpm build
+BUILD_EXIT_CODE=$?
+
+# Check if both commands were successful
+if [ $TEST_EXIT_CODE -eq 0 ] && [ $BUILD_EXIT_CODE -eq 0 ]; then
+    echo "All checks passed. Proceeding with commit."
+    exit 0
+else
+    echo "Pre-commit checks failed."
+    [ $TEST_EXIT_CODE -ne 0 ] && echo "pnpm test failed."
+    [ $BUILD_EXIT_CODE -ne 0 ] && echo "pnpm build failed."
+    exit 1
+fi
