@@ -1,13 +1,15 @@
 #!/usr/bin/env sh
 # . "${0%/*}/h"
 
-echo "Running pnpm test..."
-if find . -name "*.test.ts" -o -name "*.spec.ts" | grep -q .; then
-  pnpm test
+# Check if there are any test files present
+if find . -name "*.test.js" -o -name "*.spec.js" | grep -q .; then
+    echo "Running pnpm test..."
+    pnpm test
+    TEST_EXIT_CODE=$?
 else
-  echo "No test cases found, skipping tests."
+    echo "No test cases found. Skipping pnpm test."
+    TEST_EXIT_CODE=0
 fi
-TEST_EXIT_CODE=$?
 
 echo "Running pnpm build..."
 pnpm build
