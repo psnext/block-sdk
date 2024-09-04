@@ -28,10 +28,10 @@ BUILD_EXIT_CODE=$?
 
 # Check if both commands were successful
 if [ $TEST_EXIT_CODE -eq 0 ] && [ $BUILD_EXIT_CODE -eq 0 ]; then
-    echo "All checks passed. Proceeding with commit."
+    echo "All checks passed. Proceeding with push."
     exit 0
 else
-    echo "Pre-commit checks failed."
+    echo "Pre-push checks failed."
     [ $TEST_EXIT_CODE -ne 0 ] && echo "pnpm test failed."
     [ $BUILD_EXIT_CODE -ne 0 ] && echo "pnpm build failed."
     exit 1
