@@ -4,7 +4,7 @@
 
 ## Usage
 
-* `dev` - Start the development server
+* `dev` - Build for production && Start the development server
 * `build` - Build for production
 * `release` - Generate changelog and npm publish
 * `lint` - Checks your code for any linting errors
