@@ -2,7 +2,11 @@
 # . "${0%/*}/h"
 
 echo "Running pnpm test..."
-pnpm test
+if find . -name "*.test.ts" -o -name "*.spec.ts" | grep -q .; then
+  pnpm test
+else
+  echo "No test cases found, skipping tests."
+fi
 TEST_EXIT_CODE=$?
 
 echo "Running pnpm build..."
