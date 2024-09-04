@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+
+INCLUDE="**/*.{test,spec}.?(c|m)[jt]s?(x)"
+EXCLUDE="node_modules dist cypress .idea .git .cache .output .temp karma rollup webpack vite vitest jest ava babel nyc tsup build eslint prettier.config"
+
+find_test_files() {
+    if [ "$(uname -s)" = "Darwin" ] || [ "$(uname -s)" = "Linux" ]; then
+        find . -type f \( -name "*.test.js" -o -name "*.test.ts" -o -name "*.test.jsx" -o -name "*.test.tsx" -o -name "*.spec.js" -o -name "*.spec.ts" -o -name "*.spec.jsx" -o -name "*.spec.tsx" \) | grep -vE "$(echo $EXCLUDE | sed 's/ /|/g')"
+    else
+        powershell -Command "
+            Get-ChildItem -Recurse -Include *.test.js,*.test.ts,*.test.jsx,*.test.tsx,*.spec.js,*.spec.ts,*.spec.jsx,*.spec.tsx |
+            Where-Object { \$_.FullName -notmatch '$(echo $EXCLUDE | sed 's/ /|/g')' } |
+            ForEach-Object { \$_.FullName }
+        "
+    fi
+}
+
+TEST_FILES=$(find_test_files)
+
+if [ -n "$TEST_FILES" ]; then
+    echo "Running pnpm test..."
+    pnpm test
+    TEST_EXIT_CODE=$?
+else
+    echo "No test files found, skipping pnpm test."
+    TEST_EXIT_CODE=0
+fi
+
+echo "Running pnpm build..."
+pnpm build
+BUILD_EXIT_CODE=$?
+
+# Check if both commands were successful
+if [ $TEST_EXIT_CODE -eq 0 ] && [ $BUILD_EXIT_CODE -eq 0 ]; then
+    echo "All checks passed. Proceeding with push."
+    exit 0
+else
+    echo "Pre-push checks failed."
+    [ $TEST_EXIT_CODE -ne 0 ] && echo "pnpm test failed."
+    [ $BUILD_EXIT_CODE -ne 0 ] && echo "pnpm build failed."
+    exit 1
+fi

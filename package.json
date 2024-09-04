@@ -15,13 +15,14 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "tsc && vite build && vite",
     "build": "tsc && vite build",
     "release": "pnpm build && changelogen --release --push && pnpm publish --access public",
     "lint": "eslint . --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "prepare": "vitest --run && tsc && vite build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",

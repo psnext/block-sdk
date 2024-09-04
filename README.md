@@ -4,7 +4,7 @@
 
 ## Usage
 
-* `dev` - Start the development server
+* `dev` - Build for production && Start the development server
 * `build` - Build for production
 * `release` - Generate changelog and npm publish
 * `lint` - Checks your code for any linting errors
@@ -16,3 +16,9 @@
 ## License
 
 This SDK was created under the [MIT License](LICENSE).
+
+## Contributing
+
+1. Run pnpm install
+
+2. Run ./setup-hooks.sh (on git bash if using windows) (sets up hooks on your local repository).
