@@ -1,13 +1,24 @@
 #!/usr/bin/env sh
 # . "${0%/*}/h"
 
-# Check if there are any test files present
-if find . -name "*.test.js" -o -name "*.spec.js" | grep -q .; then
+# Define your include and exclude patterns
+INCLUDE="**/*.{test,spec}.?(c|m)[jt]s?(x)"
+EXCLUDE="**/node_modules/** **/dist/** **/cypress/** **/.{idea,git,cache,output,temp}/** **/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*"
+
+# Find test files respecting the include and exclude patterns
+# Use 'find' or 'dir /s /b' based on the OS
+if [ "$(uname -s)" = "Darwin" ] || [ "$(uname -s)" = "Linux" ]; then
+    TEST_FILES=$(find . -type f \( -path "$INCLUDE" \) ! -path "$EXCLUDE" 2>/dev/null)
+else
+    TEST_FILES=$(dir /s /b $INCLUDE | findstr /v /i $EXCLUDE)
+fi
+
+if [ -n "$TEST_FILES" ]; then
     echo "Running pnpm test..."
     pnpm test
     TEST_EXIT_CODE=$?
 else
-    echo "No test cases found. Skipping pnpm test."
+    echo "No test files found, skipping pnpm test."
     TEST_EXIT_CODE=0
 fi
 
