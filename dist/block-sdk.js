@@ -1,82 +1,30 @@
 var h = Object.defineProperty;
-var E = (e, t, a) => t in e ? h(e, t, { enumerable: !0, configurable: !0, writable: !0, value: a }) : e[t] = a;
-var d = (e, t, a) => E(e, typeof t != "symbol" ? t + "" : t, a);
+var D = (t, e, a) => e in t ? h(t, e, { enumerable: !0, configurable: !0, writable: !0, value: a }) : t[e] = a;
+var l = (t, e, a) => D(t, typeof e != "symbol" ? e + "" : e, a);
 var s = [];
 for (var b = 0; b < 256; ++b)
   s.push((b + 256).toString(16).slice(1));
-function v(e, t = 0) {
-  return (s[e[t + 0]] + s[e[t + 1]] + s[e[t + 2]] + s[e[t + 3]] + "-" + s[e[t + 4]] + s[e[t + 5]] + "-" + s[e[t + 6]] + s[e[t + 7]] + "-" + s[e[t + 8]] + s[e[t + 9]] + "-" + s[e[t + 10]] + s[e[t + 11]] + s[e[t + 12]] + s[e[t + 13]] + s[e[t + 14]] + s[e[t + 15]]).toLowerCase();
+function v(t, e = 0) {
+  return (s[t[e + 0]] + s[t[e + 1]] + s[t[e + 2]] + s[t[e + 3]] + "-" + s[t[e + 4]] + s[t[e + 5]] + "-" + s[t[e + 6]] + s[t[e + 7]] + "-" + s[t[e + 8]] + s[t[e + 9]] + "-" + s[t[e + 10]] + s[t[e + 11]] + s[t[e + 12]] + s[t[e + 13]] + s[t[e + 14]] + s[t[e + 15]]).toLowerCase();
 }
-var i, D = new Uint8Array(16);
-function I() {
+var i, I = new Uint8Array(16);
+function y() {
   if (!i && (i = typeof crypto < "u" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto), !i))
     throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-  return i(D);
+  return i(I);
 }
-var y = typeof crypto < "u" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-const m = {
-  randomUUID: y
+var A = typeof crypto < "u" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+const k = {
+  randomUUID: A
 };
-function A(e, t, a) {
-  if (m.randomUUID && !t && !e)
-    return m.randomUUID();
-  e = e || {};
-  var o = e.random || (e.rng || I)();
-  return o[6] = o[6] & 15 | 64, o[8] = o[8] & 63 | 128, v(o);
+function C(t, e, a) {
+  if (k.randomUUID && !e && !t)
+    return k.randomUUID();
+  t = t || {};
+  var n = t.random || (t.rng || y)();
+  return n[6] = n[6] & 15 | 64, n[8] = n[8] & 63 | 128, v(n);
 }
-function U(e, t) {
-  const a = new ResizeObserver(() => {
-    if (e) {
-      const { width: o, height: c } = e.getBoundingClientRect();
-      t.sendControllerMessage(
-        {
-          data: {
-            width: o,
-            height: c
-          }
-        },
-        "resize"
-      );
-    }
-  });
-  e && a.observe(e);
-}
-function w() {
-  return window.self !== window.top;
-}
-function g(e) {
-  const t = A(), a = Date.now();
-  window.parent.postMessage(
-    {
-      senderBlockId: e.senderBlockId,
-      type: e.type,
-      namespace: e.namespace || "",
-      eventData: {
-        version: 2,
-        eventId: t,
-        timestamp: a,
-        playId: "",
-        source: {
-          blockId: e.senderBlockId,
-          blockName: e.blockName,
-          ...e.source
-        },
-        payload: {
-          ...e.payload,
-          lastUpdatedTimestamp: a
-        },
-        ...e.eventData
-      }
-    },
-    "*"
-  );
-}
-const C = (e) => new URLSearchParams(window.location.search).get(e), l = {
-  isInIframe: w,
-  sendMessageToHost: g,
-  getUrlParams: C,
-  domResizeObserver: U
-}, n = {
+const o = {
   OUTPUT: "output-event",
   INCOME: "input-event",
   CONTROLLER: "controller-event",
@@ -84,80 +32,137 @@ const C = (e) => new URLSearchParams(window.location.search).get(e), l = {
   ALX: "alx-event"
 }, T = {
   BLOCK_ID: "block-id"
-}, L = "ALX", N = {
+}, U = "ALX", g = {
   UPDATE_MESSAGE: "UPDATE_MESSAGE",
   DISPLAY_MESSAGE: "DISPLAY_MESSAGE"
+}, m = {
+  RESIZE: "resize",
+  READY: "ready"
+};
+function w(t, e) {
+  const a = new ResizeObserver(() => {
+    if (t) {
+      const { width: n, height: c } = t.getBoundingClientRect();
+      e.sendControllerMessage(
+        {
+          data: {
+            width: n,
+            height: c
+          }
+        },
+        m.RESIZE
+      );
+    }
+  });
+  t && a.observe(t);
+}
+function R() {
+  return window.self !== window.top;
+}
+function L(t) {
+  const e = C(), a = Date.now();
+  window.parent.postMessage(
+    {
+      senderBlockId: t.senderBlockId,
+      type: t.type,
+      namespace: t.namespace || "",
+      eventData: {
+        version: 2,
+        eventId: e,
+        timestamp: a,
+        playId: "",
+        source: {
+          blockId: t.senderBlockId,
+          blockName: t.blockName,
+          ...t.source
+        },
+        payload: {
+          ...t.payload,
+          lastUpdatedTimestamp: a
+        },
+        ...t.eventData
+      }
+    },
+    "*"
+  );
+}
+const O = (t) => new URLSearchParams(window.location.search).get(t), d = {
+  isInIframe: R,
+  sendMessageToHost: L,
+  getUrlParams: O,
+  domResizeObserver: w
 }, r = class r {
-  constructor(t, a) {
-    d(this, "blockName");
-    d(this, "blockEventCallbacks");
-    d(this, "blockId", "");
-    d(this, "hostData", {});
-    this.blockName = t, this.blockEventCallbacks = a, this._setupDefaultParams(), this._setupWindowEvents();
+  constructor(e, a) {
+    l(this, "blockName");
+    l(this, "blockEventCallbacks");
+    l(this, "blockId", "");
+    l(this, "hostData", {});
+    this.blockName = e, this.blockEventCallbacks = a, this._setupDefaultParams(), this._setupWindowEvents();
   }
   _setupDefaultParams() {
-    const t = l.getUrlParams(T.BLOCK_ID);
-    if (!t)
+    const e = d.getUrlParams(T.BLOCK_ID);
+    if (!e)
       throw new Error("Not a valid block iframe");
-    t && (this.blockId = t);
+    e && (this.blockId = e);
   }
-  _onPostMessageReceived(t) {
-    var a, o, c, u, k;
-    ((a = t.data) == null ? void 0 : a.receivingBlockId) === this.blockId && (((o = t.data) == null ? void 0 : o.type) === n.INCOME ? this.blockEventCallbacks.onIncomingData && this.blockEventCallbacks.onIncomingData(
-      t.data,
-      t.data.eventData
-    ) : ((c = t.data) == null ? void 0 : c.type) === n.CONTROLLER ? this.blockEventCallbacks.onControllerData && this.blockEventCallbacks.onControllerData(
-      t.data,
-      t.data.eventData
-    ) : ((u = t.data) == null ? void 0 : u.type) === n.ALX ? this.blockEventCallbacks.onAlxData && this.blockEventCallbacks.onAlxData(t.data, t.data.eventData) : ((k = t.data) == null ? void 0 : k.type) === n.HOST_DATA && (this.hostData = {
+  _onPostMessageReceived(e) {
+    var a, n, c, u, E;
+    ((a = e.data) == null ? void 0 : a.receivingBlockId) === this.blockId && (((n = e.data) == null ? void 0 : n.type) === o.INCOME ? this.blockEventCallbacks.onIncomingData && this.blockEventCallbacks.onIncomingData(
+      e.data,
+      e.data.eventData
+    ) : ((c = e.data) == null ? void 0 : c.type) === o.CONTROLLER ? this.blockEventCallbacks.onControllerData && this.blockEventCallbacks.onControllerData(
+      e.data,
+      e.data.eventData
+    ) : ((u = e.data) == null ? void 0 : u.type) === o.ALX ? this.blockEventCallbacks.onAlxData && this.blockEventCallbacks.onAlxData(e.data, e.data.eventData) : ((E = e.data) == null ? void 0 : E.type) === o.HOST_DATA && (this.hostData = {
       ...this.hostData,
-      ...t.data.eventData.payload
-    }, this.blockEventCallbacks.onHostDataUpdate && this.blockEventCallbacks.onHostDataUpdate(t.data, this.hostData)));
+      ...e.data.eventData.payload
+    }, this.blockEventCallbacks.onHostDataUpdate && this.blockEventCallbacks.onHostDataUpdate(e.data, this.hostData)));
   }
   _setupWindowEvents() {
     window.addEventListener("message", this._onPostMessageReceived.bind(this));
   }
-  static register(t, a) {
-    return new r(t, a);
+  static register(e, a) {
+    const n = new r(e, a);
+    return n.sendControllerMessage(null, m.READY), n;
   }
-  sendOutput(t, a) {
-    l.sendMessageToHost({
+  sendOutput(e, a) {
+    d.sendMessageToHost({
       senderBlockId: this.blockId,
-      type: n.OUTPUT,
-      namespace: `${this.blockId}-${t}`,
+      type: o.OUTPUT,
+      namespace: `${this.blockId}-${e}`,
       blockName: this.blockName,
       source: {
-        handleId: t
+        handleId: e
       },
       payload: {
         data: a
       }
     });
   }
-  sendAlxMessage(t, a = N.DISPLAY_MESSAGE) {
-    l.sendMessageToHost({
+  sendAlxMessage(e, a = g.DISPLAY_MESSAGE) {
+    d.sendMessageToHost({
       senderBlockId: this.blockId,
-      type: n.ALX,
-      namespace: L,
+      type: o.ALX,
+      namespace: U,
       blockName: this.blockName,
       payload: {
-        data: t
+        data: e
       },
       eventData: {
         alxEventType: a
       }
     });
   }
-  resizeObserver(t) {
-    l.domResizeObserver(t, this);
+  resizeObserver(e) {
+    d.domResizeObserver(e, this);
   }
-  sendControllerMessage(t, a) {
-    l.sendMessageToHost({
+  sendControllerMessage(e, a) {
+    d.sendMessageToHost({
       senderBlockId: this.blockId,
-      type: n.CONTROLLER,
+      type: o.CONTROLLER,
       blockName: this.blockName,
       payload: {
-        ...t
+        ...e
       },
       eventData: {
         controllerType: a
@@ -165,11 +170,11 @@ const C = (e) => new URLSearchParams(window.location.search).get(e), l = {
     });
   }
 };
-d(r, "Utils", {
-  ...l
+l(r, "Utils", {
+  ...d
 });
 let p = r;
-(function(e) {
-  e.BlockSdk = p;
+(function(t) {
+  t.BlockSdk = p;
 })(window);
 //# sourceMappingURL=block-sdk.js.map

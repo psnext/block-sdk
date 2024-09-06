@@ -18,3 +18,8 @@ export const ALX_EVENT_TYPE = {
   UPDATE_MESSAGE: "UPDATE_MESSAGE",
   DISPLAY_MESSAGE: "DISPLAY_MESSAGE",
 };
+
+export const CONTROLLER_TYPE = {
+  RESIZE: "resize",
+  READY: "ready",
+};

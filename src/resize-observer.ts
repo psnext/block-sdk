@@ -1,4 +1,5 @@
 import BlockSdk from "./sdk";
+import { CONTROLLER_TYPE } from "./constants";
 
 export function domResizeObserver(el: HTMLDivElement, blockSdk: BlockSdk) {
   const observer = new ResizeObserver(() => {
@@ -11,7 +12,7 @@ export function domResizeObserver(el: HTMLDivElement, blockSdk: BlockSdk) {
             height,
           },
         },
-        "resize"
+        CONTROLLER_TYPE.RESIZE
       );
     }
   });

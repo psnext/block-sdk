@@ -5,6 +5,7 @@ import {
   BLOCK_URL_PARAMS,
   EVENT_NAMES,
   ALX_EVENT_TYPE,
+  CONTROLLER_TYPE,
 } from "./constants";
 
 export default class BlockSdk {
@@ -64,7 +65,9 @@ export default class BlockSdk {
     blockName: string,
     blockEventCallbacks: BlockEventCallbacks
   ) {
-    return new BlockSdk(blockName, blockEventCallbacks);
+    const instance = new BlockSdk(blockName, blockEventCallbacks);
+    instance.sendControllerMessage(null, CONTROLLER_TYPE.READY);
+    return instance;
   }
   public sendOutput(outputHandlerId: string, data: any) {
     Utils.sendMessageToHost({
